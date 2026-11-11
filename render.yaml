@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: agricare-ai
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    disk:
+      name: agricare-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: AGRICARE_DB_PATH
+        value: /var/data/agricare.db
+      - key: AGRICARE_AUTH_SECRET
+        generateValue: true
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: PLANTNET_API_KEY
+        sync: false
+      - key: DATA_GOV_IN_API_KEY
+        sync: false

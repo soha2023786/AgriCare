@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriCare AI | Smart Farming</title><link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="top"><div class="brand">🌱 AgriCare <b>AI</b></div><div class="tag">Smart farming • Better decisions</div></header>
+<div class="layout">
+<aside class="sidebar">
+  <div class="side-title">WORKSPACE</div>
+  <button class="nav active" data-page="overview">▦ Overview</button>
+  <button class="nav" data-page="analytics">📊 Analytics</button>
+  <button class="nav" data-page="fertilizer">🌿 Fertilizer recommendation</button>
+  <button class="nav" data-page="pest">🐛 Pest detection</button>
+  <button class="nav" data-page="market">📈 Market intelligence</button>
+  <button class="nav" data-page="assistant">🎙 Farmer Assistant</button>
+  <button class="nav" data-page="twin">🌾 Farm digital twin</button>
+  <div class="side-title existing">FARM TOOLS</div>
+  <button class="nav" data-page="disease">🩺 Disease & crop guidance</button>
+  <button class="nav" data-page="irrigation">💧 Smart irrigation</button>
+  
+  
+</aside>
+<main>
+<section id="overview" class="page show">
+ <div class="welcome"><div><p class="eyebrow">AGRICULTURE INTELLIGENCE PLATFORM</p><h1>Grow smarter with <span>AgriCare AI</span></h1><p>One workspace for crop care, soil insights and farm decisions.</p></div><div class="sun">☀️</div></div>
+ <div class="stats"><div class="stat"><small>PLATFORM STATUS</small><strong class="green">● Online</strong></div><div class="stat"><small>FEATURE MODULES</small><strong>10</strong></div><div class="stat"><small>SMART FARMING</small><strong>AI + Data</strong></div></div>
+ <h2>Explore your tools</h2><div class="cards">
+ <article class="card" data-go="fertilizer"><div class="icon">🌿</div><h3>Fertilizer recommendation</h3><p>Review NPK and soil pH readings for basic nutrient screening.</p><span>Open module →</span></article>
+ <article class="card" data-go="pest"><div class="icon">🐛</div><h3>Pest detection</h3><p>Upload a clear crop image for supported image analysis.</p><span>Open module →</span></article>
+ <article class="card" data-go="market"><div class="icon">📈</div><h3>Market intelligence</h3><p>Explore source-attributed historical wholesale prices for FY 2025–26.</p><span>Open module →</span></article>
+ <article class="card" data-go="assistant"><div class="icon">🎙️</div><h3>Farmer Assistant</h3><p>Ask follow-up farming questions in English, Hindi or Telugu, using voice or text.</p><span>Open module →</span></article>
+ <article class="card" data-go="twin"><div class="icon">🌾</div><h3>Farm digital twin</h3><p>Explore moisture and heat-risk scenarios using your field inputs.</p><span>Open module →</span></article>
+ <article class="card" data-go="irrigation"><div class="icon">💧</div><h3>Smart irrigation</h3><p>Get basic guidance from a soil-moisture reading.</p><span>Open module →</span></article>
+ </div>
+ 
+</section>
+<section id="analytics" class="page">
+ <p class="eyebrow">FARM FINANCIAL & WEATHER INTELLIGENCE</p><h1>Analytics</h1>
+ <p class="lead">Track recorded farm income and costs in Indian Rupees, and review live weather for your selected farm location.</p>
+ <div class="panel auth-panel">
+  <h2>Farmer account</h2><p class="muted">Your financial and crop records are private to your signed-in account.</p>
+  <div class="formgrid"><label>Full name<input id="authName" type="text" autocomplete="name" placeholder="Your name"></label><label>Email<input id="authEmail" type="email" autocomplete="username" placeholder="you@example.com"></label><label>Password<input id="authPassword" type="password" autocomplete="current-password" minlength="10" placeholder="At least 10 characters"></label>
+  <button class="primary" onclick="authAction('login')">Sign in</button><button class="secondary" onclick="authAction('register')">Create account</button><button class="secondary" onclick="logoutFarmer()">Sign out</button></div><div id="authMessage" class="result"></div>
+ </div>
+ <div class="analytics-toolbar panel">
+  <label>Month<input id="aMonth" type="month"></label><label>From date<input id="aStart" type="date"></label><label>To date<input id="aEnd" type="date"></label>
+  <label>Crop filter<input id="aCropFilter" placeholder="All crops"></label><label>State filter<input id="aStateFilter" placeholder="All states"></label><label>District<input id="aDistrictFilter" placeholder="All districts · leave blank for all"></label>
+  <label>Season<select id="aSeasonFilter"><option value="">All seasons</option><option>Kharif</option><option>Rabi</option><option>Zaid</option></select></label>
+  <label>Financial year<select id="aYearFilter"><option value="">Custom date range</option><option value="2025">2025–26</option><option value="2026">2026–27</option><option value="2024">2024–25</option></select></label>
+  <button class="primary" onclick="loadAnalytics()">Apply filters</button><button class="secondary" onclick="resetAnalyticsFilters()">Clear filters</button>
+ </div>
+ <p id="selectedPeriod" class="muted">Selected period: current month</p><div class="stats analytics-stats">
+  <div class="stat"><small>TOTAL REVENUE · INR</small><strong id="aRevenue">₹0</strong></div>
+  <div class="stat"><small>TOTAL EXPENSES · INR</small><strong id="aExpenses">₹0</strong></div>
+  <div class="stat"><small>NET PROFIT · INR</small><strong id="aProfit">₹0</strong></div><div class="stat"><small>AVG. MONTHLY REVENUE (ACTIVE MONTHS)</small><strong id="aAverageRevenue">₹0</strong></div><div class="stat"><small>AVG. MONTHLY EXPENSES (ACTIVE MONTHS)</small><strong id="aAverageExpenses">₹0</strong></div>
+ </div>
+ <div class="analytics-grid">
+  <div class="panel"><div class="panel-heading"><h2>Monthly revenue vs expenses</h2><span class="muted">Based on your saved records</span></div><canvas id="monthlyChart" height="230"></canvas><div id="monthlyEmpty" class="empty-note">Add farm records to display this chart.</div><div class="table-wrap"><table class="data-table"><thead><tr><th>Month</th><th>Revenue</th><th>Expenses</th><th>Profit / loss</th></tr></thead><tbody id="monthlyProfitRows"><tr><td colspan="4">No records yet.</td></tr></tbody></table></div></div>
+  <div class="panel"><div class="panel-heading"><h2>Crop-wise performance</h2></div><h3>Revenue</h3><div id="cropChart" class="bar-list"><p class="empty-note">No crop records yet.</p></div><h3>Expenses</h3><div id="cropExpenseBars" class="bar-list"></div></div>
+ </div>
+ <div class="analytics-grid">
+  <div class="panel"><h2>Expense breakdown</h2><canvas id="expenseDonut" height="220"></canvas><div id="expenseBreakdown" class="bar-list"><p class="empty-note">No expense records yet.</p></div><h3>Season-wise expenses</h3><div id="expenseSeasonBars" class="bar-list"></div></div>
+  <div class="panel"><h2>Farm weather</h2><p class="muted">Enter the coordinates for the farm location. Weather is fetched live from Open-Meteo.</p>
+   <div class="weather-inputs"><label>Latitude<input id="weatherLat" type="number" step="any" min="-90" max="90" placeholder="e.g. 17.3850"></label><label>Longitude<input id="weatherLon" type="number" step="any" min="-180" max="180" placeholder="e.g. 78.4867"></label></div>
+   <button class="primary" onclick="loadWeather()">Get live weather</button><div id="weatherResult" class="weather-result"><p class="empty-note">Choose your farm coordinates to load current conditions and a 5-day forecast.</p></div>
+  </div>
+ </div>
+ <div class="panel record-panel"><h2>Add farm financial record</h2><p class="muted">Enter actual sale income or farming expenses. Revenue is recorded as an amount received; market-price estimates are not treated as actual sales.</p>
+  <div class="formgrid">
+   <label>Record type<select id="txType"><option value="revenue">Revenue received</option><option value="expense">Farming expense</option></select></label>
+   <label>Crop<input id="txCrop" required placeholder="e.g. Rice"></label>
+   <label>Category<select id="txCategory"><option value="Crop sale">Crop sale</option><option value="Seeds">Seeds</option><option value="Fertilizers">Fertilizers</option><option value="Pesticides">Pesticides</option><option value="Irrigation">Irrigation</option><option value="Labour">Labour</option><option value="Equipment">Equipment</option><option value="Transportation">Transportation</option><option value="Machinery">Machinery</option><option value="Electricity">Electricity</option><option value="Land preparation">Land preparation</option><option value="Storage">Storage</option><option value="Other expenses">Other expenses</option></select></label>
+   <label>Amount (₹)<input id="txAmount" type="number" min="0" step="0.01" required placeholder="Amount in INR"></label>
+   <label>Quantity (quintals, optional)<input id="txQuantity" type="number" min="0" step="0.01"></label>
+   <label>Season<input id="txSeason" placeholder="Kharif / Rabi / Zaid"></label>
+   <label>State<input id="txState" placeholder="State"></label><label>District<input id="txDistrict" placeholder="District"></label>
+   <label>Date<input id="txDate" type="date" required></label><label>Notes<input id="txNotes" placeholder="Optional details"></label>
+   <button class="primary wide" onclick="saveFarmRecord()">Save farm record</button>
+  </div><div id="txMessage" class="result"></div>
+ </div>
+ <div class="panel"><h2>Recent farm records</h2><div class="table-wrap"><table class="data-table"><thead><tr><th>Date</th><th>Type</th><th>Crop</th><th>Category</th><th>Amount</th><th>Location</th><th>Actions</th></tr></thead><tbody id="txRows"><tr><td colspan="7" class="empty-note">No records found.</td></tr></tbody></table></div></div>
+ <div class="panel record-panel"><h2>Crop-wise performance records</h2><p class="muted">Record cultivated area, season, sowing/harvest dates, production and a verified selling price. Revenue is marked actual only when the price is verified and its source is recorded.</p>
+  <input id="cropRecordId" type="hidden"><div class="formgrid">
+   <label>Crop name<input id="crCrop" required placeholder="e.g. Tomato"></label><label>Area (acres)<input id="crArea" type="number" min="0.01" step="0.01" required></label>
+   <label>Season<select id="crSeason"><option>Kharif</option><option>Rabi</option><option>Zaid</option></select></label><label>Sowing date<input id="crSowing" type="date"></label><label>Harvest date<input id="crHarvest" type="date"></label>
+   <label>Production (kg)<input id="crProduction" type="number" min="0" step="0.01"></label><label>Selling price (₹/quintal)<input id="crPrice" type="number" min="0" step="0.01"></label>
+   <label>Price source / sale reference<input id="crPriceSource" placeholder="Receipt / verified source"></label><label><span>Verified actual selling price</span><input id="crVerified" type="checkbox"></label>
+   <label>State<input id="crState"></label><label>District<input id="crDistrict"></label><label>Soil type<input id="crSoil"></label><label>Notes<input id="crNotes"></label>
+   <button class="primary wide" onclick="saveCropRecord()">Save crop record</button><button class="secondary" onclick="resetCropForm()">Clear form</button>
+  </div><div id="cropMessage" class="result"></div>
+  <div class="analytics-grid"><div><h3>Crop revenue (verified only)</h3><div id="cropRevenueBars" class="bar-list"></div></div><div><h3>Crop profit (verified only)</h3><div id="cropProfitBars" class="bar-list"></div></div><div><h3>Production comparison</h3><div id="cropProductionBars" class="bar-list"></div></div><div><h3>Yield comparison</h3><div id="cropYieldBars" class="bar-list"></div></div><div><h3>Seasonal performance</h3><div id="seasonalPerformanceBars" class="bar-list"></div></div></div>
+  <div class="table-wrap"><table class="data-table"><thead><tr><th>Crop</th><th>Area</th><th>Season</th><th>Sowing</th><th>Harvest</th><th>Production</th><th>Yield/acre</th><th>Price ₹/qtl</th><th>Location</th><th>Revenue status</th><th>Actual revenue</th><th>Estimated revenue</th><th>Expenses</th><th>Net profit</th><th>Performance</th><th>Actions</th></tr></thead><tbody id="cropRows"><tr><td colspan="16" class="empty-note">No crop records yet.</td></tr></tbody></table></div>
+ </div>
+ <p class="notice">Data integrity: financial analytics are calculated only from records you enter. Weather is live provider data. Weather advisories are general rule-based guidance, not validated yield or revenue predictions. Local SQLite storage is suitable for local testing; configure persistent database storage before production deployment.</p>
+</section>
+
+<section id="fertilizer" class="page">
+ <p class="eyebrow">SOIL INTELLIGENCE</p><h1>Fertilizer recommendation</h1><p class="lead">Enter your soil-test values to receive a preliminary nutrient screening.</p>
+ <div class="panel formgrid"><label>Crop<input id="crop" value="Tomato"></label><label>Soil type<select id="soil"><option>Loamy</option><option>Clay</option><option>Sandy</option><option>Black soil</option><option>Red soil</option></select></label>
+ <label>Nitrogen (N)<input id="n" type="number" value="35" min="0" max="500"></label><label>Phosphorus (P)<input id="p" type="number" value="28" min="0" max="500"></label><label>Potassium (K)<input id="k" type="number" value="45" min="0" max="500"></label><label>Soil pH<input id="ph" type="number" value="6.5" min="0" max="14" step=".1"></label>
+ <button class="primary wide" onclick="fertilizer()">Analyze soil</button></div><div id="fertResult" class="result"></div>
+</section>
+<section id="pest" class="page">
+ <p class="eyebrow">COMPUTER VISION</p><h1>Pest detection</h1><p class="lead">Upload a clear crop or pest image (JPG, PNG or WEBP; maximum 5 MB).</p>
+ <div class="panel"><input id="pestFile" type="file" accept="image/png,image/jpeg,image/webp"><button class="primary" onclick="detectPest()">Upload image</button><div id="pestPreview"></div></div><div id="pestResult" class="result"></div>
+ 
+</section>
+<section id="market" class="page">
+ <p class="eyebrow">HISTORICAL INDIAN MANDI INTELLIGENCE</p><h1>Market intelligence · FY 2025–26</h1><p class="lead">Historical wholesale mandi observations from imported, source-attributed records. Prices are shown in ₹/quintal. Daily Agmarknet records and monthly CEDA aggregates remain separate.</p>
+ <div class="panel formgrid">
+  <label>Commodity<select id="hmCommodity"><option value="">All available commodities</option><option>Tomato</option><option>Rice</option><option>Cotton</option><option>Onion</option><option>Maize</option><option>Wheat</option><option>Groundnut</option><option>Chilli</option><option>Turmeric</option><option>Potato</option><option>Banana</option><option>Mango</option><option>Soybean</option><option>Mustard</option><option>Chickpea</option><option>Tur</option></select></label>
+  <label>State<input id="hmState" placeholder="All India · leave blank for all"></label><label>District<input id="hmDistrict" placeholder="All districts · leave blank for all"></label><label>Mandi / market<input id="hmMarket" placeholder="All mandis · leave blank for all"></label>
+  <label>From date<input id="hmStart" type="date" value="2025-04-01"></label><label>To date<input id="hmEnd" type="date" value="2026-03-31"></label>
+  <label>Data granularity<select id="hmGranularity"><option value="daily">Daily Agmarknet records</option><option value="monthly">Monthly CEDA aggregates</option></select></label>
+  <button class="primary wide" onclick="historicalMarketPage=1;loadHistoricalMarket()">Apply filters</button><button class="secondary" onclick="resetMarketFilters()">Clear filters</button><button class="secondary" onclick="downloadHistoricalCsv()">Download CSV report</button>
+ </div>
+ <div class="stats"><div class="stat"><small>RECORDS MATCHED</small><strong id="hmCount">0</strong></div><div class="stat"><small>MEAN MODAL PRICE / OBSERVATION</small><strong id="hmAverage">—</strong></div><div class="stat"><small>LAST AVAILABLE DATE</small><strong id="hmLastDate">—</strong></div></div>
+ <div class="analytics-grid"><div class="panel"><h2>Monthly modal-price trend</h2><canvas id="hmTrend" height="230"></canvas><div id="hmTrendEmpty" class="empty-note">No imported records for this selection.</div></div><div class="panel"><h2>State-wise modal-price comparison</h2><div id="hmStates" class="bar-list"></div></div></div><div class="analytics-grid"><div class="panel"><h2>Mandi-wise comparison</h2><div id="hmMarkets" class="bar-list"></div></div><div class="panel"><h2>Minimum / maximum / modal price</h2><div id="hmPriceRange" class="weather-current"></div></div></div>
+ <div class="panel"><h2>Historical mandi records</h2><div class="market-table-tools"><label>Search records<input id="hmSearch" type="search" placeholder="Search commodity, state, district or mandi"></label><label>Rows per page<select id="hmPageSize"><option>25</option><option selected>50</option><option>100</option><option>250</option></select></label><button class="secondary" onclick="historicalMarketPage=1;loadHistoricalMarket()">Search</button></div><div id="hmCoverage" class="muted">Loading data coverage…</div><div class="table-wrap"><table class="data-table"><thead><tr><th>Date</th><th>State</th><th>District</th><th>Mandi</th><th>Commodity</th><th>Variety</th><th>Min</th><th>Max</th><th>Modal</th><th>Source</th></tr></thead><tbody id="hmRows"><tr><td colspan="10" class="empty-note">No imported historical prices are available yet.</td></tr></tbody></table></div><div class="actions"><button class="secondary" onclick="marketPage(-1)">Previous</button><span id="hmPage">Page 1</span><button class="secondary" onclick="marketPage(1)">Next</button></div></div>
+ <p class="notice">Source attribution: Directorate of Marketing & Inspection, Ministry of Agriculture & Farmers Welfare; CEDA Agri-Market Data / Ashoka University when that source is used. Data coverage depends on the source files imported into the database. No price is generated for missing dates or markets. If no records are displayed, import the official FY 2025–26 Agmarknet CSV or the CEDA monthly export using <code>scripts/import_mandi_prices.py</code>. Current daily prices are not substituted for historical records.</p>
+</section>
+<section id="voice" class="page"><p class="eyebrow">VOICE ACCESS</p><h1>Talk to Farmer Assistant</h1><p class="lead">Voice input and spoken responses are available inside the multilingual Farmer Assistant.</p><button class="primary" onclick="go('assistant')">Open Farmer Assistant</button></section>
+<section id="twin" class="page">
+ <p class="eyebrow">SCENARIO SIMULATION</p><h1>Farm digital twin</h1><p class="lead">Adjust field conditions to explore a scenario based on the entered assumptions.</p>
+ <div class="panel formgrid"><label>Crop<input id="tCrop" value="Tomato"></label><label>Farm area (acres)<input id="area" type="number" value="1" min=".1"></label><label>Soil moisture (%)<input id="moist" type="number" value="35" min="0" max="100"></label><label>Temperature (°C)<input id="temp" type="number" value="30" min="-10" max="60"></label><label>Irrigation setting (%)<input id="irr" type="number" value="100" min="0" max="200"></label><label>Simulation days<input id="days" type="number" value="7" min="1" max="90"></label><button class="primary wide" onclick="simulate()">Run simulation</button></div><div id="twinResult" class="result"></div>
+</section>
+<section id="disease" class="page"><p class="eyebrow">CROP HEALTH & CULTIVATION KNOWLEDGE</p><h1>Disease and crop-growing guidance</h1><p class="lead">Describe crop conditions to receive structured general guidance. This form does not confirm a diagnosis.</p>
+ <div class="panel formgrid">
+  <label>Crop name<input id="diseaseCrop" value="Tomato"></label><label>State<input id="diseaseState" placeholder="e.g. Telangana"></label><label>District<input id="diseaseDistrict" placeholder="e.g. Warangal"></label>
+  <label>Growth stage<input id="diseaseStage" placeholder="Seedling / flowering / fruiting"></label><label>Plant age<input id="diseaseAge" placeholder="e.g. 45 days"></label><label>Soil type<input id="diseaseSoil" placeholder="Black / red / sandy / loamy"></label>
+  <label>Weather conditions<input id="diseaseWeather" placeholder="Recent rain, humidity, heat…"></label><label>Affected plant parts<input id="diseaseParts" placeholder="Leaves / stem / roots / fruit"></label><label>Symptom duration<input id="diseaseDuration" placeholder="e.g. 5 days"></label>
+  <label class="wide">Symptoms<textarea id="diseaseSymptoms" placeholder="Describe spots, colour changes, wilting, insects and spread…"></textarea></label>
+  <button class="primary wide" onclick="disease()">Get structured guidance</button>
+ </div><div id="diseaseResult" class="result"></div>
+ <div class="panel"><h2>Optional crop image screening</h2><p class="muted">PlantNet API must be configured on the backend. Predictions are screening results only.</p><input id="diseaseImage" type="file" accept="image/jpeg,image/png,image/webp"><button class="secondary" onclick="scanDiseaseImage()">Analyze image</button><div id="diseaseImageResult" class="result"></div></div>
+</section>
+<section id="irrigation" class="page"><p class="eyebrow">WATER MANAGEMENT</p><h1>Smart irrigation advice</h1><div class="panel"><label>Soil moisture (%)<input id="irrigMoist" type="number" value="35" min="0" max="100"></label><button class="primary" onclick="irrigation()">Check irrigation</button><div id="irrigResult" class="result"></div></div></section>
+<section id="assistant" class="page"><p class="eyebrow">MULTILINGUAL FARMER ASSISTANT</p><h1>Farmer Assistant</h1><p class="lead">Agricultural conversation in English, Hindi and Telugu, with follow-up context, voice input and spoken replies.</p>
+ <div class="panel"><div class="formgrid"><label>Language<select id="assistantLang"><option>English</option><option>Hindi</option><option>Telugu</option></select></label><label>Crop<input id="assistantCrop" placeholder="Crop name"></label><label>State<input id="assistantState" placeholder="State"></label><label>District<input id="assistantDistrict" placeholder="District"></label><label>Farm latitude<input id="assistantLat" type="number" step="any" placeholder="For live weather"></label><label>Farm longitude<input id="assistantLon" type="number" step="any" placeholder="For live weather"></label><label class="wide">Additional farm context<input id="assistantContext" placeholder="Season, crop stage, soil type, irrigation availability"></label></div>
+  <div class="actions"><button class="secondary" onclick="setAssistantPrompt('weather')">🌦 Weather</button><button class="secondary" onclick="setAssistantPrompt('crop')">🌱 Crop advice</button><button class="secondary" onclick="setAssistantPrompt('market')">💰 Mandi prices</button><button class="secondary" onclick="setAssistantPrompt('disease')">🩺 Disease help</button><button class="secondary" onclick="setAssistantPrompt('soil')">🪴 Soil health</button></div>
+  <div id="assistantChat" class="chat-thread"><div class="chat-message bot">Hello! I can help with crop growing, soil, irrigation, pests, diseases and Indian farming practices. Choose your language and ask a question.</div></div>
+  <label>Your question<textarea id="assistantQuestion" placeholder="Ask a follow-up question…"></textarea></label>
+  <div class="actions"><button class="primary" onclick="askAssistant('assistant')">Send message</button><button class="secondary" onclick="startAssistantSpeech()">🎙 Speak</button><button class="secondary" onclick="clearAssistantChat()">Clear chat</button></div><div id="assistantStatus" class="muted"></div>
+ </div>
+</section>
+
+</main></div><script src="/static/app.js"></script></body></html>
